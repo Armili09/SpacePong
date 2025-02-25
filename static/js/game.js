@@ -129,7 +129,7 @@ class Game {
         // Check for winner
         if (this.score.player1 >= this.winningScore || this.score.player2 >= this.winningScore) {
             document.getElementById('winMessage').classList.remove('hidden');
-            this.isPaused = true; // Pause the game when someone wins
+            this.isPaused = true;
         }
 
         // Update particles and starfield
@@ -197,8 +197,12 @@ class Game {
         // Draw particles
         this.particles.draw();
 
+        // Update score display even when paused
+        document.getElementById('player1Score').textContent = this.score.player1;
+        document.getElementById('player2Score').textContent = this.score.player2;
+
         // Draw pause message if game is paused
-        if (this.isPaused) {
+        if (this.isPaused && this.score.player1 < this.winningScore && this.score.player2 < this.winningScore) {
             this.ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
             this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 

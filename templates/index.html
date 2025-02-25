@@ -15,7 +15,11 @@
             <div id="player1Score">0</div>
             <div id="player2Score">0</div>
         </div>
-        <div id="winMessage" class="hidden">
+        <div id="startScreen" class="overlay">
+            <h1>SPACE PONG</h1>
+            <button onclick="startGame()">START GAME</button>
+        </div>
+        <div id="winMessage" class="hidden overlay">
             <h2>VICTORY!</h2>
             <button onclick="resetGame()">PLAY AGAIN</button>
         </div>

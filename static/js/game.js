@@ -38,6 +38,7 @@ class Game {
         this.score = { player1: 0, player2: 0 };
         this.winningScore = 5;
         this.isPaused = false;
+        this.isStarted = false;
 
         // Sound setup
         this.setupSound();
@@ -63,6 +64,8 @@ class Game {
         this.lastTime = 0;
         this.accumulator = 0;
         this.timestep = 1000/60;
+
+        // Start animation loop but don't update game state until started
         requestAnimationFrame(time => this.gameLoop(time));
     }
 
@@ -80,7 +83,7 @@ class Game {
     }
 
     update() {
-        if (this.isPaused) return;
+        if (!this.isStarted || this.isPaused) return;
 
         // Paddle movement
         if (this.keys['w']) this.paddle1.speed = -8;
@@ -233,6 +236,15 @@ class Game {
         this.draw();
         requestAnimationFrame(time => this.gameLoop(time));
     }
+
+    start() {
+        this.isStarted = true;
+        document.getElementById('startScreen').classList.add('hidden');
+    }
+}
+
+function startGame() {
+    game.start();
 }
 
 function resetGame() {

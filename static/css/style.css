@@ -41,7 +41,7 @@ body {
     color: #0ff;
 }
 
-#winMessage {
+.overlay {
     position: absolute;
     background: rgba(0, 0, 0, 0.8);
     padding: 20px;
@@ -51,10 +51,18 @@ body {
     display: flex;
     flex-direction: column;
     gap: 20px;
+    z-index: 100;
 }
 
-#winMessage.hidden {
-    display: none;
+#startScreen h1 {
+    color: #0ff;
+    font-size: 48px;
+    text-shadow: 0 0 20px #0ff;
+    margin: 0;
+}
+
+.hidden {
+    display: none !important;
 }
 
 button {
@@ -76,4 +84,20 @@ button:hover {
 .pause-controls {
     color: #0ff;
     text-align: center;
+}
+
+#winMessage {
+    position: absolute;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 20px;
+    border: 2px solid #0ff;
+    border-radius: 10px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+#winMessage.hidden {
+    display: none;
 }

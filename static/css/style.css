@@ -61,6 +61,39 @@ body {
     margin: 0;
 }
 
+.score-selector {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+}
+
+.score-selector label {
+    color: #0ff;
+    font-size: 18px;
+}
+
+.score-selector select {
+    background: transparent;
+    border: 2px solid #0ff;
+    color: #0ff;
+    padding: 5px 10px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 16px;
+    cursor: pointer;
+    width: 100px;
+}
+
+.score-selector select:focus {
+    outline: none;
+    box-shadow: 0 0 10px #0ff;
+}
+
+.score-selector select option {
+    background: #000;
+    color: #0ff;
+}
+
 .hidden {
     display: none !important;
 }

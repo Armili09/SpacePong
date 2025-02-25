@@ -36,7 +36,7 @@ class Game {
 
         // Game state
         this.score = { player1: 0, player2: 0 };
-        this.winningScore = 5;
+        this.winningScore = parseInt(document.getElementById('winningScore').value);
         this.isPaused = false;
         this.isStarted = false;
 
@@ -216,6 +216,33 @@ class Game {
 
             this.ctx.font = '24px Orbitron';
             this.ctx.fillText('Press P to resume', this.canvas.width/2, this.canvas.height/2 + 40);
+            this.ctx.fillText('or', this.canvas.width/2, this.canvas.height/2 + 80);
+            this.ctx.fillText('Click below to return to start', this.canvas.width/2, this.canvas.height/2 + 120);
+
+            // Draw return to start button
+            const btnY = this.canvas.height/2 + 160;
+            this.ctx.fillStyle = 'rgba(0, 255, 255, 0.2)';
+            this.ctx.fillRect(this.canvas.width/2 - 100, btnY, 200, 40);
+            this.ctx.fillStyle = '#0ff';
+            this.ctx.font = '20px Orbitron';
+            this.ctx.fillText('RETURN TO START', this.canvas.width/2, btnY + 25);
+
+            // Add click handler for the button
+            this.canvas.onclick = (e) => {
+                const rect = this.canvas.getBoundingClientRect();
+                const mouseX = e.clientX - rect.left;
+                const mouseY = e.clientY - rect.top;
+
+                if (mouseX >= this.canvas.width/2 - 100 && 
+                    mouseX <= this.canvas.width/2 + 100 &&
+                    mouseY >= btnY && 
+                    mouseY <= btnY + 40) {
+                    resetGame();
+                    document.getElementById('startScreen').classList.remove('hidden');
+                }
+            };
+        } else {
+            this.canvas.onclick = null;
         }
 
         this.ctx.shadowBlur = 0;

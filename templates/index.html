@@ -17,6 +17,15 @@
         </div>
         <div id="startScreen" class="overlay">
             <h1>SPACE PONG</h1>
+            <div class="score-selector">
+                <label for="winningScore">Points to Win:</label>
+                <select id="winningScore">
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="15">15</option>
+                    <option value="20">20</option>
+                </select>
+            </div>
             <button onclick="startGame()">START GAME</button>
         </div>
         <div id="winMessage" class="hidden overlay">

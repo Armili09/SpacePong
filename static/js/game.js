@@ -2,24 +2,45 @@ class Game {
     constructor() {
         this.canvas = document.getElementById('gameCanvas');
         this.ctx = this.canvas.getContext('2d');
-        this.resize();
 
-        // Game objects
-        this.paddle1 = { x: 50, y: this.canvas.height/2, width: 10, height: 100, speed: 0 };
-        this.paddle2 = { x: this.canvas.width - 60, y: this.canvas.height/2, width: 10, height: 100, speed: 0 };
-        this.ball = { x: this.canvas.width/2, y: this.canvas.height/2, size: 10, speedX: 5, speedY: 5 };
-        
+        // Set initial canvas size
+        this.canvas.width = Math.min(800, window.innerWidth - 20);
+        this.canvas.height = this.canvas.width * 0.6;
+
+        // Game objects - initialize after canvas size is set
+        this.paddle1 = { 
+            x: 30, 
+            y: this.canvas.height/2, 
+            width: 10, 
+            height: 100, 
+            speed: 0 
+        };
+        this.paddle2 = { 
+            x: this.canvas.width - 30, 
+            y: this.canvas.height/2, 
+            width: 10, 
+            height: 100, 
+            speed: 0 
+        };
+        this.ball = { 
+            x: this.canvas.width/2, 
+            y: this.canvas.height/2, 
+            size: 10, 
+            speedX: 5, 
+            speedY: 5 
+        };
+
         // Systems
         this.particles = new ParticleSystem(this.canvas, this.ctx);
         this.starfield = new Starfield(this.canvas, this.ctx);
-        
+
         // Game state
         this.score = { player1: 0, player2: 0 };
         this.winningScore = 5;
-        
+
         // Sound setup
         this.setupSound();
-        
+
         // Input handling
         this.keys = {};
         window.addEventListener('keydown', e => this.keys[e.key] = true);
@@ -41,7 +62,9 @@ class Game {
     resize() {
         this.canvas.width = Math.min(800, window.innerWidth - 20);
         this.canvas.height = this.canvas.width * 0.6;
-        this.paddle2.x = this.canvas.width - 60;
+        // Update paddle positions after resize
+        this.paddle2.x = this.canvas.width - 30;
+        this.paddle1.x = 30;
     }
 
     update() {
@@ -137,6 +160,7 @@ class Game {
         this.ctx.shadowBlur = 10;
         this.ctx.shadowColor = '#0ff';
         
+
         this.ctx.fillRect(
             this.paddle1.x - this.paddle1.width/2,
             this.paddle1.y - this.paddle1.height/2,
@@ -144,6 +168,7 @@ class Game {
             this.paddle1.height
         );
         
+
         this.ctx.fillRect(
             this.paddle2.x - this.paddle2.width/2,
             this.paddle2.y - this.paddle2.height/2,
@@ -167,13 +192,16 @@ class Game {
         let deltaTime = currentTime - this.lastTime;
         this.lastTime = currentTime;
         
+
         this.accumulator += deltaTime;
         
+
         while (this.accumulator >= this.timestep) {
             this.update();
             this.accumulator -= this.timestep;
         }
         
+
         this.draw();
         requestAnimationFrame(time => this.gameLoop(time));
     }

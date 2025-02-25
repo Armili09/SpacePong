@@ -129,6 +129,7 @@ class Game {
         // Check for winner
         if (this.score.player1 >= this.winningScore || this.score.player2 >= this.winningScore) {
             document.getElementById('winMessage').classList.remove('hidden');
+            this.isPaused = true; // Pause the game when someone wins
         }
 
         // Update particles and starfield
@@ -173,7 +174,6 @@ class Game {
         this.ctx.fillStyle = '#0ff';
         this.ctx.shadowBlur = 10;
         this.ctx.shadowColor = '#0ff';
-
 
         this.ctx.fillRect(
             this.paddle1.x - this.paddle1.width/2,
@@ -233,6 +233,8 @@ class Game {
 
 function resetGame() {
     document.getElementById('winMessage').classList.add('hidden');
+    document.getElementById('player1Score').textContent = '0';
+    document.getElementById('player2Score').textContent = '0';
     game = new Game();
 }
 

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Space Pong</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+</head>
+<body>
+    <div class="game-container">
+        <canvas id="gameCanvas"></canvas>
+        <div class="score-container">
+            <div id="player1Score">0</div>
+            <div id="player2Score">0</div>
+        </div>
+        <div id="winMessage" class="hidden">
+            <h2>VICTORY!</h2>
+            <button onclick="resetGame()">PLAY AGAIN</button>
+        </div>
+        <div class="controls-info">
+            <div class="player1-controls">
+                Player 1: W/S to move
+            </div>
+            <div class="player2-controls">
+                Player 2: ↑/↓ to move
+            </div>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/particles.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/starfield.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/game.js') }}"></script>
+</body>
+</html>

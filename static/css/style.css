@@ -72,3 +72,8 @@ button:hover {
     background: #0ff;
     color: #000;
 }
+
+.pause-controls {
+    color: #0ff;
+    text-align: center;
+}

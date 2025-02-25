@@ -37,13 +37,25 @@ class Game {
         // Game state
         this.score = { player1: 0, player2: 0 };
         this.winningScore = 5;
+        this.isPaused = false;
 
         // Sound setup
         this.setupSound();
 
         // Input handling
         this.keys = {};
-        window.addEventListener('keydown', e => this.keys[e.key] = true);
+        this.lastPausePress = 0;
+        window.addEventListener('keydown', e => {
+            this.keys[e.key] = true;
+            if (e.key === 'p' || e.key === 'P') {
+                // Add debounce to prevent multiple toggles
+                const now = Date.now();
+                if (now - this.lastPausePress > 200) {
+                    this.isPaused = !this.isPaused;
+                    this.lastPausePress = now;
+                }
+            }
+        });
         window.addEventListener('keyup', e => this.keys[e.key] = false);
         window.addEventListener('resize', () => this.resize());
 
@@ -68,6 +80,8 @@ class Game {
     }
 
     update() {
+        if (this.isPaused) return;
+
         // Paddle movement
         if (this.keys['w']) this.paddle1.speed = -8;
         else if (this.keys['s']) this.paddle1.speed = 8;
@@ -155,11 +169,11 @@ class Game {
         this.ctx.stroke();
         this.ctx.setLineDash([]);
 
-        // Draw paddles
+        // Draw game objects
         this.ctx.fillStyle = '#0ff';
         this.ctx.shadowBlur = 10;
         this.ctx.shadowColor = '#0ff';
-        
+
 
         this.ctx.fillRect(
             this.paddle1.x - this.paddle1.width/2,
@@ -167,7 +181,6 @@ class Game {
             this.paddle1.width,
             this.paddle1.height
         );
-        
 
         this.ctx.fillRect(
             this.paddle2.x - this.paddle2.width/2,
@@ -184,6 +197,20 @@ class Game {
         // Draw particles
         this.particles.draw();
 
+        // Draw pause message if game is paused
+        if (this.isPaused) {
+            this.ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
+            this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+
+            this.ctx.font = '48px Orbitron';
+            this.ctx.fillStyle = '#0ff';
+            this.ctx.textAlign = 'center';
+            this.ctx.fillText('PAUSED', this.canvas.width/2, this.canvas.height/2);
+
+            this.ctx.font = '24px Orbitron';
+            this.ctx.fillText('Press P to resume', this.canvas.width/2, this.canvas.height/2 + 40);
+        }
+
         this.ctx.shadowBlur = 0;
     }
 
@@ -191,16 +218,13 @@ class Game {
         if (!this.lastTime) this.lastTime = currentTime;
         let deltaTime = currentTime - this.lastTime;
         this.lastTime = currentTime;
-        
 
         this.accumulator += deltaTime;
-        
 
         while (this.accumulator >= this.timestep) {
             this.update();
             this.accumulator -= this.timestep;
         }
-        
 
         this.draw();
         requestAnimationFrame(time => this.gameLoop(time));
